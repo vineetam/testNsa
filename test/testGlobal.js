@@ -1,0 +1,8 @@
+
+
+
+//Set global values
+exports.testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXBvdCI6Ik5ZQyIsImV4cCI6MTQ2OTg5ODgxNSwiaXNzIjoiU0YiLCJ1c2VySUQiOiIyMiIsInVzZXJOYW1lIjoiam9obnMifQ.2DqvC1E6A6bmjjqG0-cVPjspikI5q-krijUaqdYzZBU'
+exports.testRefreshToken = 'amM3MWxsa2RsZW80ZG91cGE2b2lrdGp1bGIyeDQ3c3B2MmVwZncwdDRjNXlocmh3MHF1eWM3OTR6c3Q5MzQ1dg=='
+
+

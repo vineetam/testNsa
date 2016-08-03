@@ -1,0 +1,270 @@
+doctype html
+html
+  head
+    title
+    style(type='text/css').
+      .auto-style1 {
+      width: 100%;
+      }
+      td {
+      vertical-align: top;
+      }
+      .inputText {
+      width: 250px;
+      }
+      .inputBody {
+      height: 100px;
+      }
+      .responseBody {
+      width: 300px;
+      height: 200px;
+      }
+      .responseBodyMsg {
+      width: 300px;
+      }
+      legend {
+      font-weight: bold;
+      }
+      .auto-style2 {
+      font-size: small;
+      }
+    link(href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css', rel='stylesheet', type='text/css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
+    script.
+      $(document).ready(function () {
+      $("#btnget").click(function () {
+      $.ajax({
+      url: "/availability",
+      type: "GET", //send it through get method
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyget").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnadd").click(function () {
+      var jsonData = $("#txtrequestbodyadd").val();
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/addAvailability",
+      type: "POST", //send it through get method
+      data: { jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyadd").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnupdate").click(function () {
+      var availabilityDate = $.trim($("#txtavailabilitydate").val());
+      var jsonData = $("#txtrequestbodyupdate").val();
+      if (availabilityDate == "" || availabilityDate == "undefined") {
+      alert('Enter Availability Date');
+      return;
+      }
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/updateAvailabilityByDate",
+      type: "POST", //send it through get method
+      data: { availabilityDate: availabilityDate, jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyupdate").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnremove").click(function () {
+      var availabilityDate = $.trim($("#txtavailabilitydateremove").val());
+      if (availabilityDate == "" || availabilityDate == "undefined") {
+      alert('Enter Availability Date');
+      return;
+      }
+      $.ajax({
+      url: "/removeAvailability",
+      type: "POST", //send it through get method
+      data: { availabilityDate: availabilityDate },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyremove").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      });
+    script(type='text/javascript').
+      jQuery.browser = {};
+      (function () {
+      jQuery.browser.msie = false;
+      jQuery.browser.version = 0;
+      if (navigator.userAgent.match(/MSIE ([0-9]+)\\./)) {
+      jQuery.browser.msie = true;
+      jQuery.browser.version = RegExp.$1;
+      }
+      })();
+      $(function () {
+      $("#txtavailabilitydate").datepicker({ dateFormat: "yy-mm-dd" }).val();
+      $("#txtavailabilitydateremove").datepicker({ dateFormat: "yy-mm-dd" }).val();
+      });
+  body
+    form#form1
+      div
+        table.auto-style1
+          tr
+            td  
+            td
+              a(href='/home') Go to Home
+            td
+              h3
+                a(href='/availabilitydefaulthtml') Availability Default 
+          tr
+            td
+              fieldset
+                legend Get Availability
+                table.auto-style1
+                  tr
+                    td  
+                    td
+                      input#btnget(type='button', value='Get Availability')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodyget.responseBody(name='txtresponsebodyget')
+              br
+              fieldset
+                legend Remove Availability
+                table.auto-style1
+                  tr
+                    td  
+                    td
+                      | Availability Date 
+                      br
+                      span.auto-style2 [ISO Date Format (YYYY-MM-DD)]
+                  tr
+                    td  
+                    td
+                      input#txtavailabilitydateremove.inputText(name='txtavailabilitydateremove', type='text', required='', placeholder='YYYY-MM-DD')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td
+                      input#btnremove(type='button', value='submit')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodyremove.responseBodyMsg(name='txtresponsebodyremove')
+            td
+              fieldset
+                legend Add Availability
+                table.auto-style1
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Request JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtrequestbodyadd.responseBody(name='txtrequestbodyadd')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                      input#btnadd(type='button', value='submit')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodyadd.responseBodyMsg(name='txtresponsebodyadd')
+            td
+              fieldset
+                legend Update Availability
+                table.auto-style1
+                  tr
+                    td  
+                    td
+                      | Availability Date 
+                      br
+                      span.auto-style2 [ISO Date Format (YYYY-MM-DD)]
+                  tr
+                    td  
+                    td
+                      input#txtavailabilitydate.inputText(name='txtavailabilitydate', type='text', required='', placeholder='YYYY-MM-DD')
+                  tr
+                    td  
+                    td Request JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtrequestbodyupdate.responseBody(name='txtrequestbodyupdate')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                      input#btnupdate(type='button', value='submit')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodyupdate.responseBodyMsg(name='txtresponsebodyupdate')

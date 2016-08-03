@@ -1,0 +1,85 @@
+doctype html
+html
+  head 
+    title
+    |     
+    style(type='text/css').
+      .responseBody {
+      width: 300px;
+      height: 200px;
+      }
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script.
+      $(document).ready(function () {
+      $("#btnsubmit").click(function () {
+      
+       var userid = $.trim($("#txtuserid").val());
+       var passsword = $.trim($("#txtpassword").val());
+
+       if (userid == "" || userid == "undefined") {
+         alert('Enter user id');
+         return;
+       }
+       
+      if (passsword == "" || passsword == "undefined") {
+         alert('Enter passsword');
+         return;
+       }
+       
+       
+      
+      $.ajax({
+      url: "/",
+      type: "POST", //send it through get method
+      data: {txtuserid: userid, txtpassword: passsword},
+      dataType: 'json',
+      success: function (data) {
+      //Do Something
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      // display pretty printed object in text area:
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyget").html(str);
+      
+      if(data.statusCode == 200){
+        $(location).attr('href','/home');
+      }
+           
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      });
+  body
+    form#form1
+      div(style='margin-left: 30%; margin-top: 10%; border: solid 1px; width: 300px; padding: 30px;')
+        h1 Login
+        |       
+        |         
+        div
+          | User Id :
+        |             
+        input#txtuserid(name='txtuserid', type='text')
+        |         
+        div
+          br
+        |             Password :
+        |         
+        div
+          input#txtpassword(name='txtpassword', type='password')
+        |         
+        |       &#x9;&#x9;
+        br
+        |       
+        |         
+        div
+          input#btnsubmit(type='button', value='submit')
+                
+        div
+          br
+        |             Response :
+        div
+          textarea#txtresponsebodyget.responseBody(name='txtresponsebodyget') 

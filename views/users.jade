@@ -1,0 +1,279 @@
+doctype html
+html
+  head
+    title
+    |     
+    style(type='text/css').
+      .auto-style1 {
+      width: 100%;
+      height: 474px;
+      }
+      .inputText {
+      width: 250px;
+      }
+      .inputBody {
+      height: 100px;
+      }
+      .responseBody {
+      width: 300px;
+      height: 200px;
+      }
+      .responseBodyMsg {
+      width: 300px;
+      }
+    |     
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    |     
+    script.
+      $(document).ready(function () {
+      $("#btnget").click(function () {
+      var userid = $.trim($("#txtuseridget").val());
+      if (userid == "" || userid == "undefined") {
+      alert('Enter user id');
+      return;
+      }
+      $.ajax({
+      url: "/users",
+      type: "POST", //send it through get method
+      data: { userid: userid },
+      dataType: 'json',
+      success: function (data) {
+      //Do Something
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      // display pretty printed object in text area:
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyget").html(str);
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnupdate").click(function () {
+      var userid = $.trim($("#txtuseridupdate").val());
+      var jsonData = $("#txtrequestbodyupdate").val();
+      if (userid == "" || userid == "undefined") {
+      alert('Enter user id');
+      return;
+      }
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/updateUser",
+      type: "POST", //send it through get method
+      data: { userid: userid, jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      //Do Something
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      // display pretty printed object in text area:
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyupdate").html(str);
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnupdatepassword").click(function () {
+      var userid = $.trim($("#txtuseridupdatepassword").val());
+      var jsonData = $("#txtrequestbodyupdatepassword").val();
+      if (userid == "" || userid == "undefined") {
+      alert('Enter user id');
+      return;
+      }
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/updateUserPass",
+      type: "POST", //send it through get method
+      data: { userid: userid, jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      //Do Something
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      // display pretty printed object in text area:
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyupdatepassword").html(str);
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      });
+  body
+    form#form1
+      div
+        table.auto-style1
+          tr
+            td &nbsp;
+            |                     
+            td
+              a(href='/home') Go to Home
+            |                     
+            td &nbsp;
+          |                 
+          tr
+            td &nbsp;
+            |                     
+            td &nbsp;
+            |                     
+            td &nbsp;
+          |                     
+          tr
+            td
+              fieldset
+                legend Get User Details
+                |                                 
+                table.auto-style1
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td User Id
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      input#txtuseridget.inputText(name='txtuseridget', type='text', required='')
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      input#btnget(type='button', value='submit')
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td Response JSON Body
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      textarea#txtresponsebodyget.responseBody(name='txtresponsebodyget')
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td &nbsp;
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td &nbsp;
+            |                         
+            td
+              fieldset
+                legend Update User Details
+                |                                 
+                table.auto-style1
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td User Id
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      input#txtuseridupdate.inputText(name='txtuseridupdate', type='text', required='')
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td Request JSON Body
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      textarea#txtrequestbodyupdate.responseBody(name='txtrequestbodyupdate')
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      input#btnupdate(type='button', value='submit')
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td &nbsp;
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td Response JSON Body
+                  |                                     
+                  tr
+                    td &nbsp;
+                    |                                         
+                    td
+                      textarea#txtresponsebodyupdate.responseBodyMsg(name='txtresponsebodyupdate')
+            |                     
+            td
+              fieldset
+                legend Update User Password
+                |                             
+                table.auto-style1
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td User Id
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td
+                      input#txtuseridupdatepassword.inputText(name='txtuseridupdate', type='text', required='')
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td Request JSON Body
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td
+                      textarea#txtrequestbodyupdatepassword.responseBody(name='txtrequestbodyupdatepassword')
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td
+                      input#btnupdatepassword(type='button', value='submit')
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td &nbsp;
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td Response JSON Body
+                  |                                 
+                  tr
+                    td &nbsp;
+                    |                                     
+                    td
+                      textarea#txtresponsebodyupdatepassword.responseBodyMsg(name='txtresponsebodyupdatepassword')

@@ -1,0 +1,348 @@
+doctype html
+html
+  head
+    title
+    style(type='text/css').
+      .auto-style1 {
+      width: 100%;
+      }
+      td {
+      vertical-align: top;
+      }
+      .inputText {
+      width: 250px;
+      }
+      .inputBody {
+      height: 100px;
+      }
+      .responseBody {
+      width: 300px;
+      height: 200px;
+      }
+      .responseBodyMsg {
+      width: 300px;
+      }
+      legend {
+      font-weight: bold;
+      }
+      #ddlstatus {
+      width: 132px;
+      }
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script.
+      $(document).ready(function () {
+      $("#btngetlist").click(function () {
+      var status = $("#ddlstatus").val();
+      status = '?status=' + status;
+      $.ajax({
+      url: "/dispatches",
+      type: "POST", //send it through get method
+      data: { status: status },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodygetlist").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btngetsingle").click(function () {
+      var dispatchNumber = $("#txtdispatchnumbergetsingle").val();
+      if (dispatchNumber == "" || dispatchNumber == "undefined") {
+      alert('Enter Dispatch Number');
+      return;
+      }
+      $.ajax({
+      url: "/getDispatchesByDispatchNumber",
+      type: "POST", //send it through get method
+      data: { dispatchNumber: dispatchNumber },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodygetsingle").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnupdatesingle").click(function () {
+      var dispatchNumber = $.trim($("#txtdispatchnumberupdatesingle").val());
+      var jsonData = $("#txtrequestbodyupdatesingle").val();
+      if (dispatchNumber == "" || dispatchNumber == "undefined") {
+      alert('Enter Dispatch Number');
+      return;
+      }
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/updateDispatchesByDispatchNumber",
+      type: "POST", //send it through get method
+      data: { dispatchNumber: dispatchNumber, jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyupdatesingle").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btnupdateschedule").click(function () {
+      var dispatchNumber = $.trim($("#txtdispatchnumberupdateschedule").val());
+      var jsonData = $("#txtrequestbodyupdateschedule").val();
+      if (dispatchNumber == "" || dispatchNumber == "undefined") {
+      alert('Enter Dispatch Number');
+      return;
+      }
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/updateDispatchesSchedules",
+      type: "POST", //send it through get method
+      data: { dispatchNumber: dispatchNumber, jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodyupdateschedule").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btncompletion").click(function () {
+      var dispatchNumber = $.trim($("#txtdispatchnumbercompletion").val());
+      var jsonData = $("#txtrequestbodycompletion").val();
+      if (dispatchNumber == "" || dispatchNumber == "undefined") {
+      alert('Enter Dispatch Number');
+      return;
+      }
+      if (jsonData == "" || jsonData == "undefined") {
+      alert('Enter request body in json format');
+      return;
+      }
+      $.ajax({
+      url: "/updateDispatchesCompletions",
+      type: "POST", //send it through get method
+      data: { dispatchNumber: dispatchNumber, jsonData: jsonData },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodycompletion").html(str);
+      },
+      error: function (xhr) {
+      console.log("Error occured");
+      }
+      });
+      });
+      });
+  body
+    form#form1
+      div
+        table.auto-style1
+          tr
+            td  
+            td
+              a(href='/home') Go to Home
+            td
+              h3
+                a(href='/dispatchesattachmenthtml') Dispatches Attachment
+          tr
+            td
+              fieldset
+                legend Get Dispatches List
+                table.auto-style1
+                  tr
+                    td  
+                    td
+                      | Status
+                  tr
+                    td  
+                    td
+                      select#ddlstatus(name='ddlstatus')
+                        option(value='all') all
+                        option(value='open') open
+                        option(value='closed') closed
+                        option(value='cancelled') cancelled
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td
+                      input#btngetlist(type='button', value='Get Dispatches')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodygetlist.responseBody(name='txtresponsebodyget')
+            td
+              fieldset
+                legend Get Dispatch By Dispatch Number
+                table.auto-style1
+                  tr
+                    td  
+                    td Dispatch Number
+                  tr
+                    td  
+                    td
+                      input#txtdispatchnumbergetsingle.inputText(name='txtdispatchnumbergetsingle', type='text')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                      input#btngetsingle(type='button', value='submit')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodygetsingle.responseBody(name='txtresponsebodygetsingle')
+            td
+              fieldset
+                legend Update dispatch By Dispatch Number
+                table.auto-style1
+                  tr
+                    td  
+                    td Dispatch Number
+                  tr
+                    td  
+                    td
+                      input#txtdispatchnumberupdatesingle.inputText(name='txtdispatchnumberupdatesingle', type='text')
+                  tr
+                    td  
+                    td Request JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtrequestbodyupdatesingle.responseBody(name='txtrequestbodyupdatesingle')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                      input#btnupdatesingle(type='button', value='submit')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodyupdatesingle.responseBodyMsg(name='txtresponsebodyupdatesingle')
+          tr
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+          tr
+            td
+              fieldset
+                legend Update Dispatch Schedule
+                table.auto-style1
+                  tr
+                    td  
+                    td Dispatch Number
+                  tr
+                    td  
+                    td
+                      input#txtdispatchnumberupdateschedule.inputText(name='txtdispatchnumberupdateschedule', type='text')
+                  tr
+                    td  
+                    td Request JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtrequestbodyupdateschedule.responseBody(name='txtrequestbodyupdateschedule')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                      input#btnupdateschedule(type='button', value='submit')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodyupdateschedule.responseBodyMsg(name='txtresponsebodyupdateschedule')
+            td
+              fieldset
+                legend Dispatch Completion
+                table.auto-style1
+                  tr
+                    td  
+                    td Dispatch Number
+                  tr
+                    td  
+                    td
+                      input#txtdispatchnumbercompletion.inputText(name='txtdispatchnumbercompletion', type='text')
+                  tr
+                    td  
+                    td Request JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtrequestbodycompletion.responseBody(name='txtrequestbodycompletion')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                      input#btncompletion(type='button', value='submit')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodycompletion.responseBodyMsg(name='txtresponsebodycompletion')
+            td
+          tr
+            td
+            td
+            td

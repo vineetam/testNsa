@@ -1,0 +1,202 @@
+doctype html
+html
+  head
+    title
+    style(type='text/css').
+      .auto-style1 {
+      width: 100%;
+      height: 474px;
+      }
+      .inputText {
+      width: 250px;
+      }
+      .inputBody {
+      height: 100px;
+      }
+      .responseBody {
+      width: 300px;
+      height: 200px;
+      }
+      .responseBodyMsg {
+      width: 300px;
+      }
+      legend {
+      font-weight: bold;
+      }
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script.
+      $(document).ready(function () {
+      $("#btngetpayments").click(function () {
+      $.ajax({
+      url: "/listPayments",
+      type: "GET", //send it through get method
+      dataType: 'json',
+      success: function (data) {
+      //Do Something
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      // display pretty printed object in text area:
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodygetpayments").html(str);
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btngetbatch").click(function () {
+      var batchid = $.trim($("#txtbatchidget").val());
+      if (batchid == "" || batchid == "undefined") {
+      alert('Enter batch id');
+      return;
+      }
+      $.ajax({
+      url: "/listPaymentsByBatchId",
+      type: "POST", //send it through get method
+      data: { batchid: batchid },
+      dataType: 'json',
+      success: function (data) {
+      //Do Something
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      // display pretty printed object in text area:
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodygetbatch").html(str);
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      $("#btngetcall").click(function () {
+      var callid = $.trim($("#txtcallidget").val());
+      if (callid == "" || callid == "undefined") {
+      alert('Enter call id');
+      return;
+      }
+      $.ajax({
+      url: "/listPaymentsByCallId",
+      type: "POST", //send it through get method
+      data: { callid: callid },
+      dataType: 'json',
+      success: function (data) {
+      // using JSON.stringify pretty print capability:
+      var str = JSON.stringify(data, undefined, 4);
+      //document.getElementById('txtresponsebodyget').innerHTML = str;
+      $("#txtresponsebodygetcall").html(str);
+      },
+      error: function (xhr) {
+      //Do Something to handle error
+      console.log("Error occured");
+      }
+      });
+      });
+      });
+  body
+    form#form1
+      div
+        table.auto-style1
+          tr
+            td  
+            td
+              a(href='/home') Go to Home
+            td  
+          tr
+            td  
+            td  
+            td  
+          tr
+            td
+              fieldset
+                legend Get Payments
+                table.auto-style1
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td
+                      input#btngetpayments(type='button', value='Get Payments')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodygetpayments.responseBody(name='txtresponsebodygetpayments')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td  
+            td
+              fieldset
+                legend Get Batch
+                table.auto-style1
+                  tr
+                    td  
+                    td Batch Id
+                  tr
+                    td  
+                    td
+                      input#txtbatchidget.inputText(name='txtbatchidget', type='text', required='')
+                  tr
+                    td  
+                    td
+                      input#btngetbatch(type='button', value='submit')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodygetbatch.responseBody(name='txtresponsebodygetbatch')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td  
+            td
+              fieldset
+                legend Get Call
+                table.auto-style1
+                  tr
+                    td  
+                    td Call Id
+                  tr
+                    td  
+                    td
+                      input#txtcallidget.inputText(name='txtcallidget', type='text', required='')
+                  tr
+                    td  
+                    td
+                      input#btngetcall(type='button', value='submit')
+                  tr
+                    td  
+                    td
+                  tr
+                    td  
+                    td Response JSON Body
+                  tr
+                    td  
+                    td
+                      textarea#txtresponsebodygetcall.responseBody(name='txtresponsebodygetcall')
+                  tr
+                    td  
+                    td  
+                  tr
+                    td  
+                    td  
